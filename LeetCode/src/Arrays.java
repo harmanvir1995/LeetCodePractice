@@ -1,17 +1,64 @@
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Arrays {
 	public static void main(String[] args) {
-		int data[] = {-10,-3,0,5,9};
+		System.out.println(generate(6));
 		
 	}
 	
-	public static int traverseTree(TreeNode t) {
-		if(t.left == null) {
-			return null;
-		}
-		traverseTree(t.left);
-	}
+	/**
+	 * Given an integer numRows, return the first numRows of Pascal's triangle.
+		In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+	`	Example 1:
+
+	   Input: numRows = 5
+	   Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+	 * @param numRows
+	 * @return
+	 */
+	//grab pen and paper to solve it.
+	//main login behind solving Pascal's triangle.
+	// 1. When we move to the next line we add 1 at the back, and then perform 
+	//	  operations on the elements from second last to the second element, 
+	//    starting from the second last element.
+	// 2. Then keep on adding the two numbers moving towards the first element.
+	//
+	// Example:- creation of 3rd row and 4th row:-
+	// 		> 11 			//second row
+	// 		> 111 			//1 is added to the last
+	//		   ^
+	//		> 121			//adding second last and third last element.
+	//		> 1211			//1 is added to the last
+	//		    ^
+	//		> 1231			//adding second last and third last element.
+	//		   ^
+	//		> 1331 			//adding third last and fourth last element.
+	//		This goes on..!!
+	public static List<List<Integer>> generate(int numRows) {
+		 //Creation of list which will store lists.
+		 List<List<Integer>> result = new ArrayList<List<Integer>>();
+		 //This ArrayList will be added to the result ArrayList.
+		 List<Integer> row = new ArrayList<>();
+		 //Creating number of rows.
+		 for(int i=0; i<numRows; i++) {
+			 //For each row perform the operations from the second last 
+			 //element to second element in the list.
+			 //This for loop will be executed only after the numRows is 
+			 //greater than or equal to 3.
+			 for(int j=row.size()-1; j>=1; j--) {
+				 row.set(j, row.get(j) + row.get(j-1));
+			 }
+			 //adding 1 at the last.
+			 row.add(1);
+			 //Adding an object of array list to the result. 
+			 result.add(new ArrayList<Integer>(row));			 
+		 }
+	        return result;
+	    }
+	    
+	
 	
 	/**
 	 * Given an integer array nums where the elements are sorted in 
