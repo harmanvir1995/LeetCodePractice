@@ -18,6 +18,43 @@ public class GeeksForGeek {
 	}
 	
 	/**
+	 * Given a Binary Tree, find its Boundary Traversal.
+	 */
+	ArrayList <Integer> boundary(Node node)
+	{
+	    
+	}
+	//Adding leaves to the array list.
+	ArrayList<Integer> leaves(ArrayList<Integer> alist, Node root){
+		if(root == null) {
+			return alist;
+		}
+	    leaves(alist, root.left);
+	    if(root.left == null && root.right == null){
+	        alist.add(root.data);
+	    }
+	    leaves(alist, root.right);
+	    return alist;
+	}
+	//Adding left boundary nodes to the array list.
+	// A function to print all left boundary nodes, except a leaf node.
+    // Print the nodes in TOP DOWN manner
+	ArrayList<Integer> leftBoundary(ArrayList<Integer> alist, Node root){
+		if(root == null) {
+			return alist;
+		}
+		if(root.left != null) {
+			alist.add(root.data);
+			leftBoundary(alist, root.left);
+		}
+		else if(root.right != null) {
+			alist.add(root.data);
+			leftBoundary(alist, root.right);
+		}
+		return alist;
+	}
+	
+	/**
 	 * Function to return the diameter of a Binary Tree.
 	 * @param root
 	 * @return
@@ -120,4 +157,53 @@ public class GeeksForGeek {
 		//When data is in range then recursive call
 		return isBSThelper(node.left, min, node.data) && isBSThelper(node.right, node.data, max); 
 	}
+	
+	/* Given a binary tree, print its nodes according to the
+    "bottom-up" postorder traversal. */
+  void printPostorder(Node node)
+  {
+      if (node == null)
+          return;
+
+      // first recur on left subtree
+      printPostorder(node.left);
+
+      // then recur on right subtree
+      printPostorder(node.right);
+
+      // now deal with the node
+      System.out.print(node.data + " ");
+  }
+
+  /* Given a binary tree, print its nodes in inorder*/
+  void printInorder(Node node)
+  {
+      if (node == null)
+          return;
+
+      /* first recur on left child */
+      printInorder(node.left);
+
+      /* then print the data of node */
+      System.out.print(node.data + " ");
+
+      /* now recur on right child */
+      printInorder(node.right);
+  }
+
+  /* Given a binary tree, print its nodes in preorder*/
+  void printPreorder(Node node)
+  {
+      if (node == null)
+          return;
+
+      /* first print data of node */
+      System.out.print(node.data + " ");
+
+      /* then recur on left subtree */
+      printPreorder(node.left);
+
+      /* now recur on right subtree */
+      printPreorder(node.right);
+  }
 }
