@@ -3,9 +3,89 @@ import java.util.List;
 
 public class Arrays {
 	public static void main(String[] args) {
-		System.out.println(generate(6));
+		int[] prices = {7,1,5,3,6,4};
+		System.out.println(maxProfit2(prices));;
 		
 	}
+	
+	 /**
+	    * You are given an array prices where prices[i] is the price of 
+	    * a given stock on the ith day.You want to maximize your profit 
+	    * by choosing a single day to buy one stock and choosing a different 
+	    * day in the future to sell that stock.
+	    * @param prices
+	    * @return
+	    */
+		// Input: prices = [7,1,5,3,6,4]
+		// Output: 5
+		// Brute Force approach
+	 	public static int maxProfit(int[] prices) {
+	        int maxProfit = 0;
+	        for(int i=0; i<prices.length-1; i++) {
+	        	for(int j=i+1; j<prices.length; j++) {
+	        		if(prices[j] > prices[i] & prices[j] - prices[i] > maxProfit) {
+	        			maxProfit = prices[j] - prices[i];
+	        		}
+	        	}
+	        }
+	        return maxProfit;
+	    }
+	 	
+	 	// maxArray from the right
+	 	public static int maxProfit1(int[] prices) {
+	 		int[] maxArray = new int[prices.length];
+	 		int maxProfit = 0;
+	 		int maxTillNow = Integer.MIN_VALUE;
+	 		for(int i=prices.length-1; i>=0; i--) {
+	 			if(maxTillNow < prices[i]) {
+	 				maxTillNow = prices[i];
+	 			}
+	 			maxArray[i] = maxTillNow;
+	 		}
+	 		for(int i=0; i<maxArray.length-1; i++) {
+	 			if(maxArray[i+1]-prices[i] > maxProfit) {
+	 				maxProfit = maxArray[i+1]-prices[i];
+	 			}
+	 		}
+	 		return maxProfit;
+	 	}
+	 	//One pass solution without any extra space
+	 	// Input: prices = [7,1,5,3,6,4]
+	 	// Output: 5
+	 	public static int maxProfit2(int[] prices) {
+	 		int n = prices.length;
+	 		int minSoFar = Integer.MAX_VALUE;
+	 		int maxProfit = 0;
+	 		for(int i=0;i< n;i++){
+	 			if(prices[i] < minSoFar) {
+	 				minSoFar = prices[i];
+	 			}
+	 			else {
+	 				if((prices[i]- minSoFar) > maxProfit) {
+	 					maxProfit = prices[i] - minSoFar;
+	 				}
+	 			}	 
+	 		}
+	 		return maxProfit;
+	 	}
+	
+	/**
+	 * Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
+	 * In Pascal's triangle, each number is the sum of the two numbers directly above it
+	 * @param rowIndex
+	 * @return
+	 */
+	public static List<Integer> getRow(int rowIndex) {
+		rowIndex++;
+        List<Integer> row = new ArrayList<>(rowIndex);
+        for(int i =0; i<rowIndex; i++){
+            for(int j=row.size()-1; j>=1; j--){
+                row.set(j, row.get(j) + row.get(j-1));
+            }
+            row.add(1);  	
+        }
+        return row;
+    }
 	
 	/**
 	 * Given an integer numRows, return the first numRows of Pascal's triangle.
@@ -354,14 +434,7 @@ public class Arrays {
 	        }
 	    }
 	   
-	   /**
-	    * You are given an array prices where prices[i] is the price of 
-	    * a given stock on the ith day.You want to maximize your profit 
-	    * by choosing a single day to buy one stock and choosing a different 
-	    * day in the future to sell that stock.
-	    * @param prices
-	    * @return
-	    */
+	  
 	   
 	   
 	   
