@@ -1,12 +1,98 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ArraysLeetCode {
 	public static void main(String[] args) {
-		int[] prices = {0,1,2,4,5,7};
-		System.out.println(summaryRanges(prices));;
+		int[] prices = {4,9,5};
+		int[] nums2 = {9,4,9,8,4};
+		System.out.println(intersection(prices, nums2));;
 	}
+	
+	/**
+	 * Given two integer arrays nums1 and nums2, return an array of their intersection. 
+	 * Each element in the result must be unique and you may return the result in any order.
+	 */
+	// Using ArrayList
+	public static int[] intersection(int[] nums1, int[] nums2) {
+        Set<Integer> set = new HashSet<Integer>();
+        int result[] = null;
+        int i = 0;
+        int j = 0;
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        while(i<nums1.length && j<nums2.length) {
+        	if(nums1[i] == nums2[j]) {
+        		set.add(nums1[i]);
+        		i++;
+        		j++;
+        	}
+        	else if(nums1[i] < nums2[j]) {
+        		i++;
+        	}
+        	else if(nums2[j] < nums1[i]) {
+        		j++;
+        	}
+        }
+        result = new int[set.size()];
+        int k=0;
+        for(int m : set) {
+        	result[k++] = m;
+        }
+        return result;
+    }
+	// Using Binary Search
+	public int[] intersection2(int[] nums1, int[] nums2) {
+        Set<Integer> set = new HashSet<>();
+        Arrays.sort(nums2);
+        for (Integer num : nums1) {
+            if (binarySearch(nums2, num)) {
+                set.add(num);
+            }
+        }
+        int i = 0;
+        int[] result = new int[set.size()];
+        for (Integer num : set) {
+            result[i++] = num;
+        }
+        return result;
+    }
+    public boolean binarySearch(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                return true;
+            }
+            if (nums[mid] > target) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return false;
+    }
+    //Using HashSet
+    public static int[] intersection3(int[] nums1, int[] nums2) {
+    	HashSet<Integer> set = new HashSet<Integer>();
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        //Add all elements to set from array 1
+        for(int i =0; i< nums1.length; i++) set.add(nums1[i]);
+        for(int j = 0; j < nums2.length; j++) {
+           // If present in array 2 then add to res and remove from set 
+           if(set.contains(nums2[j])) {
+                res.add(nums2[j]);
+                set.remove(nums2[j]);
+            }
+        }
+        // Convert ArrayList to array
+        int[] arr = new int[res.size()];
+        for (int i= 0; i < res.size(); i++) arr[i] = res.get(i);
+        return arr;
+    }
 	
 	/**
 	 * Given an integer array nums, move all 0's to the end of it while maintaining 
