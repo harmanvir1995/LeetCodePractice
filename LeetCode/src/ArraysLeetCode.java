@@ -6,10 +6,63 @@ import java.util.Set;
 
 public class ArraysLeetCode {
 	public static void main(String[] args) {
-		int[] prices = {4,9,5};
-		int[] nums2 = {9,4,9,8,4};
-		System.out.println(intersection(prices, nums2));;
+		int[] prices = {1,2,2,1};
+		int[] nums2 = {2,2};
+		for(int i=0; i<intersect(prices, nums2).length; i++) {
+			System.out.print(intersect(prices, nums2)[i] + ", ");
+		}
 	}
+	/**
+	 * Given an integer array nums, return the third distinct maximum number 
+	 * in this array. If the third maximum does not exist, return the maximum number.
+	 * @param nums
+	 * @return
+	 */
+	public int thirdMax(int[] nums) {
+		int[] sorted = Arrays.stream(nums).sorted().distinct().toArray();
+		if (sorted.length == 2) {
+			return sorted[sorted.length-1];
+		} else if(sorted.length == 1) {
+			return sorted[0];
+		} else {
+			return sorted[sorted.length-3];
+		}
+	}
+	   
+	/**
+	 * Given two integer arrays nums1 and nums2, return an array of their intersection. 
+	 * Each element in the result must appear as many times as it shows in both arrays 
+	 * and you may return the result in any order.
+	 * Example 1:
+	 * Input: nums1 = [1,2,2,1], nums2 = [2,2]
+	 * Output: [2,2]
+	 */
+	 public static int[] intersect(int[] nums1, int[] nums2) {
+	        List<Integer> alist = new ArrayList<>();
+	        Arrays.sort(nums1);
+	        Arrays.sort(nums2);
+	        int j = 0;
+	        int k = 0;
+	        while(j < nums1.length && k < nums2.length) {
+	        	if(nums1[j] == nums2[k]) {
+	        		alist.add(nums1[j]);
+	        		j++;
+	        		k++;
+	        	}
+	        	else if(nums1[j] < nums2[k]) {
+	        		j++;
+	        	}
+	        	else {
+	        		k++;
+	        	}
+	        }
+	        int[] result = new int[alist.size()];
+	        int i = 0;
+	        for(int x : alist) {
+	        	result[i++] = x;
+	        }
+	        return result;
+	 }
 	
 	/**
 	 * Given two integer arrays nums1 and nums2, return an array of their intersection. 
@@ -80,7 +133,8 @@ public class ArraysLeetCode {
     	HashSet<Integer> set = new HashSet<Integer>();
         ArrayList<Integer> res = new ArrayList<Integer>();
         //Add all elements to set from array 1
-        for(int i =0; i< nums1.length; i++) set.add(nums1[i]);
+        for(int i =0; i< nums1.length; i++)
+        	set.add(nums1[i]);
         for(int j = 0; j < nums2.length; j++) {
            // If present in array 2 then add to res and remove from set 
            if(set.contains(nums2[j])) {
